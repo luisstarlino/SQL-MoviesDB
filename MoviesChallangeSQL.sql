@@ -2,7 +2,7 @@
 * @Author: Luis Starlino
 * @Date: 2025-01-22 19:55
 *****************************************************************************************/
---USE Filmes; #USE DB
+USE Filmes; --USE DB
 
 ---------------------------------------
 -- 1 | Get name and year for all movies
@@ -29,6 +29,25 @@ SELECT Nome, Ano, Duracao from Filmes WHERE Ano > 2000;
 SELECT Nome, Ano, Duracao from Filmes WHERE (Duracao > 100 AND Duracao < 150 ) ORDER BY Duracao asc;
 
 ---------------------------------------
--- 7 | Count movies by year, order by duration desc;
-SELECT Ano, Count(*) as Quantidade from Filmes group by Ano;
---Buscar a quantidade de filmes lançadas no ano, agrupando por ano, ordenando pela duracao em ordem decrescente
+-- 7 | Count movies by year, order by quantity desc;
+SELECT Ano, Count(*) as Quantidade from Filmes group by Ano order by Quantidade desc;
+
+---------------------------------------
+-- 8 | Get male actors, returns the first and the last name
+SELECT	PrimeiroNome, UltimoNome FROM Atores where Genero = 'M';
+
+---------------------------------------
+-- 9 | Get female actors, returns the id, first and the last name. Order by first name, asc.
+SELECT	Id, PrimeiroNome, UltimoNome FROM Atores where Genero = 'F' order by PrimeiroNome;
+
+---------------------------------------
+-- 10 | Get name and gender from movies
+SELECT F.Nome, G.Genero FROM Filmes F INNER JOIN FilmesGenero FG ON F.Id = FG.IdFilme INNER JOIN Generos G ON G.Id = FG.IdGenero;
+
+---------------------------------------
+-- 11 | Get name and gender from mistery movies
+SELECT F.Nome, G.Genero  FROM Filmes F INNER JOIN FilmesGenero FG ON F.Id = FG.IdFilme  INNER JOIN Generos G ON G.Id = FG.IdGenero  WHERE FG.IdGenero = 10;
+
+---------------------------------------
+-- 12 | Get movie name and actors, returns the first and last name. Including the role
+Select F.Nome, EF.Papel, A.PrimeiroNome, A.UltimoNome from ElencoFilme EF INNER JOIN Filmes F ON F.Id = EF.IdFilme INNER JOIN Atores A ON A.Id = EF.IdAtor;
